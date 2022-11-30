@@ -1,7 +1,7 @@
 import { ThemeProvider } from '@emotion/react'
 import { Home as HomeComponent } from 'components'
 import Head from 'next/head'
-import { theme } from './theme'
+import { theme } from '../components/theme'
 
 export default function Home() {
   return (
