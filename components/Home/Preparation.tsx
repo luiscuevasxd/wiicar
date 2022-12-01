@@ -275,6 +275,7 @@ export default function Preparation({
               style={{
                 backgroundColor: '#fff',
                 color: '#E63020',
+                padding: 8,
               }}
               endIcon={<ArrowDropDownIcon />}
               onClick={handleClick}
