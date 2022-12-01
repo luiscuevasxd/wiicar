@@ -160,8 +160,9 @@ export default function Preparation({
           )}
         </Box>
       </Paper>
+      <Box mt={isSmall ? 3 : 7} />
       <Box
-        position={isSmall ? 'static' : 'absolute'}
+        position={isSmall ? 'static' : 'fixed'}
         bottom='0'
         left='0'
         right='0'
@@ -169,7 +170,6 @@ export default function Preparation({
         boxShadow='0px 0px 1px 1px #0000001a'
         px={3}
         py={2}
-        mt={isSmall ? 3 : 0}
       >
         <Grid container columnSpacing={3} rowSpacing={3}>
           <Grid item xs={12} sm={6} lg={3}>

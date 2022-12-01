@@ -14,6 +14,7 @@ import Warehouse from './Warehouse'
 
 export default function Home() {
   const [vehicles, setVehicles] = useState<Vehicle[]>([])
+  const [totalPage, setTotalPage] = useState(1)
   const [stateTable, dispatchTable] = useReducer(
     tableReducer,
     tableInitialState
@@ -31,6 +32,8 @@ export default function Home() {
     event: ChangeEvent<HTMLInputElement | HTMLTextAreaElement>
   ) => {
     if (!event) return
+
+    if (data.length) setTotalPage(data.length / +event.target.value)
 
     dispatchTable({
       type: 'change_rows_per_page',
@@ -126,25 +129,30 @@ export default function Home() {
     if (!data?.length) return
 
     const time = setTimeout(() => {
-      const pageValues = handlePageValue(
+      const sortValues = handleSorterValue(
         data,
+        stateTable.sortOrder,
+        stateTable.sortField
+      )
+
+      const pageValues = handlePageValue(
+        sortValues,
         stateTable.page,
         stateTable.rowsPerPage
       )
 
       const filterValues = handleFilterValue(pageValues, stateTable.filter)
 
-      const sortValues = handleSorterValue(
-        filterValues,
-        stateTable.sortOrder,
-        stateTable.sortField
-      )
-
-      setVehicles(sortValues)
+      setVehicles(filterValues)
     }, 800)
 
     return () => clearTimeout(time)
   }, [stateTable, data])
+
+  useEffect(() => {
+    if (!data.length) return
+    setTotalPage(data.length / stateTable.rowsPerPage)
+  }, [data])
 
   return (
     <Tabs>
@@ -153,7 +161,7 @@ export default function Home() {
           {...stateTable}
           vehicles={vehicles}
           loading={loading}
-          totalPage={10}
+          totalPage={totalPage}
           handleSorter={handleSorter}
           handleFilter={handleFilter}
           handleChangePage={handleChangePage}
