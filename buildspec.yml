@@ -2,7 +2,7 @@ version: 0.2
 
 env:
   variables:
-    NEXT_PUBLIC_API_URL: ''
+    NEXT_PUBLIC_API_URL: '/utils'
 
 phases:
   install:
