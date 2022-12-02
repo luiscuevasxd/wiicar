@@ -2,7 +2,10 @@
   "name": "wiicar",
   "version": "0.1.0",
   "private": true,
-  "node": ">=16.0.0 <17.0.0",
+  "engines": {
+    "node": ">=16.0",
+    "npm": ">=6.5.x"
+  },
   "scripts": {
     "dev": "next dev",
     "build": "next build",
