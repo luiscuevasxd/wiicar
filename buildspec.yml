@@ -2,7 +2,8 @@ version: 0.2
 
 env:
   variables:
-    NEXT_PUBLIC_API_URL: '/utils'
+    NEXT_PUBLIC_API_URL: ''
+    PORT: 80
 
 phases:
   install:
