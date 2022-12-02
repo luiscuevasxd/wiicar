@@ -19,7 +19,7 @@ phases:
       - npm run build
 artifacts:
   files:
-    - .next/**/*
+    - .next
     - package.json
     - next.config.js
     - tsconfig.json
