@@ -4,19 +4,41 @@ env:
   variables:
     NEXT_PUBLIC_API_URL: ''
     PORT: 8080
+    REPOSITORY_URI: 448256604766.dkr.ecr.us-east-1.amazonaws.com/luchodemo
+    IMAGE_TAG: wiicar-front-demo
 
 phases:
   install:
+  pre_build:
     commands:
-      - echo Installing dependency...
-      - npm install -g next
-      - npm install -g typescript
-      - npm install
+      - echo Logging in to Amazon ECR...
+      - aws --version
+      - $(aws ecr get-login --region eu-west-1 --no-include-email)
+      - COMMIT_HASH=$(echo $CODEBUILD_RESOLVED_SOURCE_VERSION | cut -c 1-7)
   build:
     commands:
       - echo Build started on `date`
-      - echo Compiling the Node.js code
-      - npm run build
+      - echo Building the Docker image
+      - docker build --tag $REPOSITORY_URI:latest .
+  post_build:
+    commands:
+      - echo Build completed on `date`
+      - echo Pushing the Docker images...
+      - docker push $REPOSITORY_URI:latest
+      - echo Writing image definitions file...
+      - printf '[{"name":"eagle","imageUri":"%s"}]' $REPOSITORY_URI:$IMAGE_TAG > imagedefinitions.json
+#      - echo Deleting old artifacts
+#      - aws s3 sync dist/ s3://$BUCKET_NAME --delete
+#   commands:
+#     - echo Installing dependency...
+#     - npm install -g next
+#     - npm install -g typescript
+#     - npm install
+# build:
+#   commands:
+#     - echo Build started on `date`
+#     - echo Compiling the Node.js code
+#     - npm run build
 artifacts:
   files:
     - .next/**/*
