@@ -10,26 +10,6 @@ env:
 
 phases:
   install:
-    # pre_build:
-    #   commands:
-    #     - echo Logging in to Amazon ECR...
-    #     - aws --version
-    #     - $(aws ecr get-login --region $AWS_DEFAULT_REGION --no-include-email)
-    #     - COMMIT_HASH=$(echo $CODEBUILD_RESOLVED_SOURCE_VERSION | cut -c 1-7)
-    # build:
-    #   commands:
-    #     - echo Build started on `date`
-    #     - echo Building the Docker image
-    #     - docker build --tag $REPOSITORY_URI:latest .
-    # post_build:
-    #   commands:
-    #     - echo Build completed on `date`
-    #     - echo Pushing the Docker images...
-    #     - docker push $REPOSITORY_URI:latest
-    #     - echo Writing image definitions file...
-    #     - printf '[{"name":"eagle","imageUri":"%s"}]' $REPOSITORY_URI:$IMAGE_TAG > imagedefinitions.json
-    #      - echo Deleting old artifacts
-    #      - aws s3 sync dist/ s3://$BUCKET_NAME --delete
     pre_build:
       commands:
         - echo Installing dependency...
@@ -43,7 +23,6 @@ phases:
         - npm run build
 artifacts:
   files:
-    # - imagedefinitions.json
     - .next/**/*
     - package.json
     - next.config.js
